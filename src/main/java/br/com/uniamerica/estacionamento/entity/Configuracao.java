@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 @Entity
-@Table(name = "configuracao", schema = "public")
+@Table(name = "configuracoes", schema = "public")
 public class Configuracao  extends AbstractEntity{
     @Getter @Setter
     @Column(name = "van")
@@ -24,5 +24,5 @@ public class Configuracao  extends AbstractEntity{
     private BigDecimal valorMulta;
     @Getter @Setter
     @Column(name = "desconto")
-    private BigDecimal desconto;
+    private boolean desconto;
 }

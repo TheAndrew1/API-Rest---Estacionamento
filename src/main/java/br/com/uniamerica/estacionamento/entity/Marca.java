@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "configuracao", schema = "public")
+@Table(name = "marcas", schema = "public")
 public class Marca extends AbstractEntity{
     @Getter @Setter
     @Column(name = "marca", nullable = false, unique = true)
