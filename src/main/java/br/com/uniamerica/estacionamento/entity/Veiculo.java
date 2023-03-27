@@ -1,14 +1,15 @@
 package br.com.uniamerica.estacionamento.entity;
 
 import jakarta.persistence.*;
-import lombok.CustomLog;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+
 @Entity
 @Table(name = "veiculos", schema = "public")
-public class Veiculo extends AbstractEntity{
+public class Veiculo extends AbstractEntity {
+
     @Getter @Setter
     @Column(name = "placa", length = 10, nullable = false, unique = true)
     private String placa;
