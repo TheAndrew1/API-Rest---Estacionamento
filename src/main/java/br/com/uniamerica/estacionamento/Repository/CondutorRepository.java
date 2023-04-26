@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CondutorRepository extends JpaRepository<Condutor, Long> {
-    public List<Condutor> findByPlaca(final String nome);
-
-    @Query("from Condutor where nome like :nome")
-    public List<Condutor> findByPlacaLike(@Param("nome") final String nome);
-
-    @Query(value = "select * from condutores where nome like :nome", nativeQuery = true)
-    public List<Condutor> findByPlacaLikeNative(@Param("nome") final String nome);
+//    public List<Condutor> findByPlaca(final String nome);
+//
+//    @Query("from Condutor where nome like :nome")
+//    public List<Condutor> findByPlacaLike(@Param("nome") final String nome);
+//
+//    @Query(value = "select * from condutores where nome like :nome", nativeQuery = true)
+//    public List<Condutor> findByPlacaLikeNative(@Param("nome") final String nome);
 }

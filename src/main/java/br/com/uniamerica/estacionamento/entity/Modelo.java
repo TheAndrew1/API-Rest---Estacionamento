@@ -8,7 +8,7 @@ import lombok.Setter;
 @Table(name = "modelos", schema = "public")
 public class Modelo extends AbstractEntity{
     @Getter @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "marca", nullable = false)
     private Marca marca;
     @Getter @Setter
