@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+
+@Entity
+@Table(name = "configuracoes", schema = "public")
 public class Configuracao  extends AbstractEntity{
     private int vagasVan;
     private int vagasCarro;
