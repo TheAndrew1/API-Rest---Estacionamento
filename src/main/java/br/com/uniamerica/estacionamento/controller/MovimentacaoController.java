@@ -34,7 +34,7 @@ public class MovimentacaoController {
 
     @GetMapping("/abertos")
     public ResponseEntity<?> findByAberto(){
-        final List<Movimentacao> movimentacoess = this.movimentacaoRepository.findByAberto();
+        final List<Movimentacao> movimentacoess = this.movimentacaoRepository.findBySaidaIsNull();
 
         return ResponseEntity.ok(movimentacoess);
     }

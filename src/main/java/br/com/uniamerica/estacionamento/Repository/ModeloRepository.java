@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ModeloRepository extends JpaRepository<Modelo, Long> {
+
+    public List<Modelo> findByAtivoIsTrue();
     @Query(value = "select * from modelos where ativo=true", nativeQuery = true)
     public List<Modelo> findByAtivo();
 }

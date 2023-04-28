@@ -38,7 +38,7 @@ public class CondutorController {
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Condutor> condutores = this.condutorRepository.findByAtivo();
+        final List<Condutor> condutores = this.condutorRepository.findByAtivoIsTrue();
 
         return ResponseEntity.ok(condutores);
     }

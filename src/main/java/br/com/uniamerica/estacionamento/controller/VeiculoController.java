@@ -38,7 +38,7 @@ public class VeiculoController {
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Veiculo> veiculos = this.veiculoRepository.findByAtivo();
+        final List<Veiculo> veiculos = this.veiculoRepository.findByAtivoIsTrue();
 
         return ResponseEntity.ok(veiculos);
     }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CondutorRepository extends JpaRepository<Condutor, Long> {
-//    public List<Condutor> findByPlaca(final String nome);
+    public List<Condutor> findByAtivoIsTrue();
 //
 //    @Query("from Condutor where nome like :nome")
 //    public List<Condutor> findByPlacaLike(@Param("nome") final String nome);

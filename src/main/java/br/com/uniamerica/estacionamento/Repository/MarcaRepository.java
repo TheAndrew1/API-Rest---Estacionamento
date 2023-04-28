@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MarcaRepository extends JpaRepository<Marca, Long> {
-//    public List<Marca> findByMarca(final String marca);
+    public List<Marca> findByAtivoIsTrue();
 //
 //    @Query("from Marca where marca like :marca")
 //    public List<Marca> findByMarcaLike(@Param("marca") final String marca);

@@ -38,7 +38,7 @@ public class MarcaController{
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Marca> marcas = this.marcaRepository.findByAtivo();
+        final List<Marca> marcas = this.marcaRepository.findByAtivoIsTrue();
 
         return ResponseEntity.ok(marcas);
     }
