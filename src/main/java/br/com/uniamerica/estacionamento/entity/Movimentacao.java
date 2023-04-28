@@ -16,32 +16,41 @@ public class Movimentacao extends AbstractEntity{
     @Getter @Setter
     @Column(name = "entrada", nullable = false)
     private LocalDate entrada;
+
     @Getter @Setter
-    @Column(name = "saida", nullable = false)
+    @Column(name = "saida")
     private LocalDate saida;
+
     @Getter @Setter
-    @Column(name = "tempo_desconto", nullable = false)
+    @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
+
     @Getter @Setter
-    @Column(name = "tempo", nullable = false)
+    @Column(name = "tempo")
     private LocalTime tempo;
+
     @Getter @Setter
-    @Column(name = "tempo_multao", nullable = false)
+    @Column(name = "tempo_multao")
     private LocalTime tempoMulta;
+
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "veiculo", nullable = false, unique = true)
+    @JoinColumn(name = "veiculo", nullable = false)
     private Veiculo veiculo;
+
     @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "condutor", nullable = false)
     private Condutor condutor;
+
     @Getter @Setter
-    @Column(name = "valor_multa", nullable = false)
+    @Column(name = "valor_multa")
     private BigDecimal valorMulta;
+
     @Getter @Setter
-    @Column(name = "valor_total", nullable = false)
+    @Column(name = "valor_total")
     private BigDecimal valorTotal;
+
     @Getter @Setter
     @Column(name = "valor_hora", nullable = false)
     private BigDecimal valorHora;

@@ -13,19 +13,23 @@ public class Veiculo extends AbstractEntity {
     @Getter @Setter
     @Column(name = "placa", length = 10, nullable = false, unique = true)
     private String placa;
+
     @Getter @Setter
-    @Column(name = "cor", length = 20, nullable = false)
+    @Column(name = "cor", length = 20)
     @Enumerated(EnumType.STRING)
     private Cor cor;
+
     @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "modelo", nullable = false)
     private Modelo modelo;
+
     @Getter @Setter
-    @Column(name = "tipo", length = 20, nullable = false)
+    @Column(name = "tipo", length = 20)
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
+
     @Getter @Setter
     @Column(name = "ano", nullable = false)
-    private LocalDate ano;
+    private int ano;
 }
