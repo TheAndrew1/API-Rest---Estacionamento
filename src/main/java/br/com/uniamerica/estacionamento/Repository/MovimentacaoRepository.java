@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long> {
-//    public List<Movimentacao> findByEntrada(final LocalDate entrada);
+//    public List<Movimentacao> findBySaidaIsNull();
 //
 //    @Query("from Movimentacao where entrada like :entrada")
 //    public List<Movimentacao> findByEntradaLike(@Param("entrada") final LocalDate entrada);
 //
-    @Query(value = "select * from movimentacoes where saida<>null", nativeQuery = true)
+    @Query(value = "select * from movimentacoes where saida is null", nativeQuery = true)
     public List<Movimentacao> findByAberto();
 }

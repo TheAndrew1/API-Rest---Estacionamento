@@ -56,17 +56,4 @@ public class ConfiguracaoController {
             return ResponseEntity.internalServerError().body("Error " + e.getMessage());
         }
     }
-
-    @DeleteMapping
-    public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        try {
-            final Configuracao configuracao = this.configuracaoRepository.findById(id).orElse(null);
-
-            this.configuracaoRepository.delete(configuracao);
-            return ResponseEntity.ok("Registro deletado com sucesso");
-        }
-        catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
-        }
-    }
 }
