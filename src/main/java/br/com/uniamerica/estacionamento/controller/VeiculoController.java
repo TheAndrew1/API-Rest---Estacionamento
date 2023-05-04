@@ -1,7 +1,7 @@
 package br.com.uniamerica.estacionamento.controller;
 
-import br.com.uniamerica.estacionamento.Repository.MovimentacaoRepository;
-import br.com.uniamerica.estacionamento.Repository.VeiculoRepository;
+import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
+import br.com.uniamerica.estacionamento.repository.VeiculoRepository;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
 import org.springframework.beans.factory.annotation.Autowired;

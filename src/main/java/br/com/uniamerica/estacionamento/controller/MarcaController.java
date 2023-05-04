@@ -1,7 +1,7 @@
 package br.com.uniamerica.estacionamento.controller;
 
-import br.com.uniamerica.estacionamento.Repository.MarcaRepository;
-import br.com.uniamerica.estacionamento.Repository.ModeloRepository;
+import br.com.uniamerica.estacionamento.repository.MarcaRepository;
+import br.com.uniamerica.estacionamento.repository.ModeloRepository;
 import br.com.uniamerica.estacionamento.entity.Marca;
 import br.com.uniamerica.estacionamento.entity.Modelo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class MarcaController{
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Marca> marcas = this.marcaRepository.findByAtivoIsTrue();
+        final List<Marca> marcas = this.marcaRepository.findByAtivo();
 
         return ResponseEntity.ok(marcas);
     }
