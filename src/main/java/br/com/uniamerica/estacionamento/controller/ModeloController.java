@@ -16,13 +16,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/modelo")
 public class ModeloController {
-
-    @Autowired
-    private ModeloRepository modeloRepository;
     @Autowired
     private ModeloService modeloService;
-    @Autowired
-    private VeiculoRepository veiculoRepository;
 
     /* Sem usar Autowired
     public ModeloController(ModeloRepository modeloRepository){
@@ -43,21 +38,18 @@ public class ModeloController {
     @GetMapping
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Modelo modelo = this.modeloService.findById(id);
-
         return ResponseEntity.ok(modelo);
     }
 
     @GetMapping("/lista")
     public ResponseEntity<?> findAll(){
         final List<Modelo> modelos = this.modeloService.findAll();
-
         return ResponseEntity.ok(modelos);
     }
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
         final List<Modelo> modelos = this.modeloService.findByAtivo();
-
         return ResponseEntity.ok(modelos);
     }
 
@@ -69,53 +61,12 @@ public class ModeloController {
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Modelo modelo){
-        try{
-            final Modelo modeloBanco = this.modeloRepository.findById(id).orElse(null);
-
-            if(modeloBanco == null || !modeloBanco.getId().equals(modelo.getId()))
-            {
-                throw new RuntimeException("Não foi possível identificar o registro informado");
-            }
-
-            this.modeloRepository.save(modelo);
-            return ResponseEntity.ok("Registro editado com sucesso");
-        }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
-        }
-        catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
-        }
+        this.modeloService.editar(id, modelo);
+        return ResponseEntity.ok("Registro editado com sucesso");
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        try {
-            final Modelo modelo = this.modeloRepository.findById(id).orElse(null);
-            if(modelo == null){
-                throw new Exception("Registro inexistente");
-            }
-
-            final List<Veiculo> veiculos = this.veiculoRepository.findAll();
-
-            for(Veiculo veiculo : veiculos){
-                if(modelo.equals(veiculo.getModelo())){
-                    modelo.setAtivo(false);
-                    this.modeloRepository.save(modelo);
-                    return ResponseEntity.ok("Registro não está mais ativo");
-                }
-            }
-
-            if(modelo.isAtivo()){
-                this.modeloRepository.delete(modelo);
-                return ResponseEntity.ok("Registro deletado com sucesso");
-            }
-            else{
-                throw new Exception("Não foi possível excluir o registro");
-            }
-        }
-        catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
-        }
+        return ResponseEntity.ok(this.modeloService.excluir(id));
     }
 }
