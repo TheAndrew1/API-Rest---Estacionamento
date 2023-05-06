@@ -27,6 +27,7 @@ public abstract class AbstractEntity {
         this.cadastro = LocalDateTime.now();
         this.ativo = true;
     }
+
     @PreUpdate
     private void preUpdate(){
         this.atualizacao = LocalDateTime.now();

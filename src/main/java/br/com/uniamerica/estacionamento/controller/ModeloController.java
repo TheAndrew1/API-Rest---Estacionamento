@@ -4,6 +4,7 @@ import br.com.uniamerica.estacionamento.repository.ModeloRepository;
 import br.com.uniamerica.estacionamento.repository.VeiculoRepository;
 import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
+import br.com.uniamerica.estacionamento.service.ModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -19,57 +20,51 @@ public class ModeloController {
     @Autowired
     private ModeloRepository modeloRepository;
     @Autowired
+    private ModeloService modeloService;
+    @Autowired
     private VeiculoRepository veiculoRepository;
 
     /* Sem usar Autowired
     public ModeloController(ModeloRepository modeloRepository){
         this.modeloRepository = modeloRepository;
-    }
-     */
+    }*/
 
     /** http://localhost:8080/api/modelo/1 */
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id){
         final Modelo modelo = this.modeloRepository.findById(id).orElse(null);
 
         return modelo == null
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
                 : ResponseEntity.ok(modelo);
-    }
+    }*/
 
     /** http://localhost:8080/api/modelo?id=1 */
     @GetMapping
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
-        final Modelo modelo = this.modeloRepository.findById(id).orElse(null);
+        final Modelo modelo = this.modeloService.findById(id);
 
-        return modelo == null
-                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
-                : ResponseEntity.ok(modelo);
+        return ResponseEntity.ok(modelo);
     }
 
     @GetMapping("/lista")
     public ResponseEntity<?> findAll(){
-        final List<Modelo> modelos = this.modeloRepository.findAll();
+        final List<Modelo> modelos = this.modeloService.findAll();
 
         return ResponseEntity.ok(modelos);
     }
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Modelo> modelos = this.modeloRepository.findByAtivo();
+        final List<Modelo> modelos = this.modeloService.findByAtivo();
 
         return ResponseEntity.ok(modelos);
     }
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo){
-        try{
-            this.modeloRepository.save(modelo);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
-        }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
-        }
+        this.modeloService.cadastrar(modelo);
+        return ResponseEntity.ok("Registro cadastrado com sucesso");
     }
 
     @PutMapping
