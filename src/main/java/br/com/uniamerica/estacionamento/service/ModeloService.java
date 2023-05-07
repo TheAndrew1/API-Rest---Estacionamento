@@ -26,6 +26,7 @@ public class ModeloService {
     private MarcaRepository marcaRepository;
     @Autowired
     private VeiculoRepository veiculoRepository;
+
 //    @Autowired
 //    private VeiculoService veiculoService;
 

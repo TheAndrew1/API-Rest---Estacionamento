@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -15,22 +13,22 @@ import java.time.LocalTime;
 public class Movimentacao extends AbstractEntity{
     @Getter @Setter
     @Column(name = "entrada", nullable = false)
-    private LocalDate entrada;
+    private LocalDateTime entrada;
 
     @Getter @Setter
     @Column(name = "saida")
-    private LocalDate saida;
+    private LocalDateTime saida;
 
     @Getter @Setter
-    @Column(name = "tempo_desconto")
-    private LocalTime tempoDesconto;
+    @Column(name = "tempo_desconto_gerado")
+    private LocalTime tempoDescontoGerado;
 
     @Getter @Setter
     @Column(name = "tempo")
     private LocalTime tempo;
 
     @Getter @Setter
-    @Column(name = "tempo_multao")
+    @Column(name = "tempo_multa")
     private LocalTime tempoMulta;
 
     @Getter @Setter
@@ -50,8 +48,4 @@ public class Movimentacao extends AbstractEntity{
     @Getter @Setter
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
-
-    @Getter @Setter
-    @Column(name = "valor_hora", nullable = false)
-    private BigDecimal valorHora;
 }
