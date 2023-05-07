@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     public List<Veiculo> findByAtivoIsTrue();
-//
+    //
 //    @Query("from Veiculo where placa like :placa")
 //    public List<Veiculo> findByPlacaLike(@Param("placa") final String placa);
 //
+    public Veiculo findByPlaca(String placa);
+
     @Query(value = "select * from veiculos where ativo=true", nativeQuery = true)
     public List<Veiculo> findByAtivo();
 }
