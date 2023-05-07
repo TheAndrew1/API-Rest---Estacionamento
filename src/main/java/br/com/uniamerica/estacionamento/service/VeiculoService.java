@@ -33,7 +33,14 @@ public class VeiculoService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Veiculo veiculo){
         //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
-        //Assert.isTrue(!(veiculo.getMarca().length() < 3), "Nome de veiculo inválido!"); Validar placa
+        Assert.isTrue(veiculo.getPlaca().length() == 7 || veiculo.getPlaca().length() == 8, "Placa inválida!");
+        if(veiculo.getPlaca().length() == 8){
+            Assert.isTrue(veiculo.getPlaca().matches("[a-zA-Z]{3}-[0-9]{4}"), "Formato da placa inválido!");
+        }
+        if(veiculo.getPlaca().length() == 7){
+            Assert.isTrue(veiculo.getPlaca().matches("[a-zA-Z]{3}[0-9]{1}[a-zA-Z]{1}[0-9]{2}"), "Formato da placa inválido!");
+        }
+        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Veiculo veiculoDatabase = this.veiculoRepository.findByPlaca(veiculo.getPlaca());
         Assert.isNull(veiculoDatabase, "Veiculo já cadastrada!");
 

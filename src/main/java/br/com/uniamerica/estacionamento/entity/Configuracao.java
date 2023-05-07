@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.LocalTime;
 
 @Entity
@@ -35,6 +36,14 @@ public class Configuracao  extends AbstractEntity{
     @Getter @Setter
     @Column(name = "valor_multa_hora", nullable = false)
     private BigDecimal valorMultaHora;
+
+    @Getter @Setter
+    @Column(name = "tempo_para_desconto", nullable = false)
+    private Time tempoParaDesconto;
+
+    @Getter @Setter
+    @Column(name = "tempo_desconto", nullable = false)
+    private Time tempoDesconto;
 
     @Getter @Setter
     @Column(name = "desconto", nullable = false)
