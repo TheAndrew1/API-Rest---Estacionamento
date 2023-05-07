@@ -42,7 +42,7 @@ public class VeiculoService {
         }
         veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
         Veiculo veiculoDatabase = this.veiculoRepository.findByPlaca(veiculo.getPlaca());
-        Assert.isNull(veiculoDatabase, "Veiculo já cadastrada!");
+        Assert.isNull(veiculoDatabase, "Veiculo já cadastrado!");
 
         this.veiculoRepository.save(veiculo);
     }
