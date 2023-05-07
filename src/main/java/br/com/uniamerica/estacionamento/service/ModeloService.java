@@ -26,9 +26,6 @@ public class ModeloService {
     private MarcaRepository marcaRepository;
     @Autowired
     private VeiculoRepository veiculoRepository;
-
-//    @Autowired
-//    private MarcaService marcaService;
 //    @Autowired
 //    private VeiculoService veiculoService;
 
@@ -46,12 +43,12 @@ public class ModeloService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Modelo modelo){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo codigo
+        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         Marca marca = this.marcaRepository.findById(modelo.getMarca().getId()).orElse(null);
         Assert.notNull(marca, "Marca não está cadastrada!");
         if(!marca.isAtivo()){
             marca.setAtivo(true);
-            this.marcaRepository.save(marca);   //Trocar pelo marcaService depois
+            this.marcaRepository.save(marca);
         }
 
         Modelo modeloDatabase = this.modeloRepository.findByModelo(modelo.getModelo());
@@ -74,7 +71,6 @@ public class ModeloService {
     public String excluir(final Long id){
         Modelo modelo = findById(id);
         Assert.notNull(modelo, "Modelo não encontrado!");
-        Assert.isTrue(modelo.getId().equals(modelo.getId()), "Modelos não conferem!");
 
         final List<Veiculo> veiculos = this.veiculoRepository.findAll();    //Trocar pelo veiculoService depois
         for(Veiculo veiculo : veiculos){
