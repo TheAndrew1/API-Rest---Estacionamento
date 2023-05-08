@@ -63,7 +63,7 @@ public class CondutorService {
 
         final List<Movimentacao> movimentacoes = this.movimentacaoRepository.findAll();
         for(Movimentacao movimentacao : movimentacoes){
-            if(condutor.equals(movimentacao.getVeiculo())){
+            if(condutor.equals(movimentacao.getCondutor())){
                 condutor.setAtivo(false);
                 this.condutorRepository.save(condutor);
                 return "Condutor está inativo!";
