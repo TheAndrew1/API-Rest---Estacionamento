@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalTime;
 
 @Entity
@@ -39,11 +40,11 @@ public class Configuracao  extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo_para_desconto", nullable = false)
-    private Time tempoParaDesconto;
+    private Duration tempoParaDesconto;
 
     @Getter @Setter
     @Column(name = "tempo_desconto", nullable = false)
-    private Time tempoDesconto;
+    private Duration tempoDesconto;
 
     @Getter @Setter
     @Column(name = "desconto", nullable = false)

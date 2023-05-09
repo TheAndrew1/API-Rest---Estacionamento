@@ -1,14 +1,18 @@
 package br.com.uniamerica.estacionamento.service;
 
 import br.com.uniamerica.estacionamento.entity.Condutor;
+import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.repository.CondutorRepository;
+import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -17,6 +21,8 @@ public class CondutorService {
     public CondutorRepository condutorRepository;
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
+    @Autowired
+    private ConfiguracaoRepository configuracaoRepository;
 
     public Condutor findById(final Long id){
         return this.condutorRepository.findById(id).orElse(null);
@@ -31,18 +37,26 @@ public class CondutorService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(final Condutor condutor){
+    public void cadastrar(final Condutor condutor, Boolean... editado){
         //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
-//        Assert.isTrue(veiculo.getPlaca().length() == 7 || veiculo.getPlaca().length() == 8, "Placa inválida!");
-//        if(veiculo.getPlaca().length() == 8){
-//            Assert.isTrue(veiculo.getPlaca().matches("[a-zA-Z]{3}-[0-9]{4}"), "Formato da placa inválido!");
-//        }
-//        if(veiculo.getPlaca().length() == 7){
-//            Assert.isTrue(veiculo.getPlaca().matches("[a-zA-Z]{3}[0-9]{1}[a-zA-Z]{1}[0-9]{2}"), "Formato da placa inválido!");
-//        }
-//        veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
-        Condutor condutorDatabase = this.condutorRepository.findByCpf(condutor.getCpf());
-        Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
+        Assert.isTrue(condutor.getCpf().length() == 14, "CPF inválido!");
+        Assert.isTrue(condutor.getCpf().matches("[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"), "Formato do CPF inválido!");
+        Assert.isTrue(condutor.getTelefone().length() == 14, "Telefone inválido!");
+        Assert.isTrue(condutor.getTelefone().matches("([0-9]{2}) 9[0-9]{4}-[0-9]{4}"), "Formato do telefone inválido!");
+
+        if(editado == null) {
+            Condutor condutorDatabase = this.condutorRepository.findByCpf(condutor.getCpf());
+            Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
+        }
+        else{
+            if(!condutor.getTempoPago().equals(Duration.of(0, ChronoUnit.HOURS))){
+                Configuracao configuracao = this.configuracaoRepository.findById(Long.valueOf(1)).orElse(null);
+                Assert.notNull(configuracao, "Configuração não encontrada!");
+
+//                Long times = condutor.getTempoPago().dividedBy(configuracao.getTempoParaDesconto());
+//                condutor.setTempoDesconto(Duration.of(configuracao.getTempoDesconto().multipliedBy(times)), ChronoUnit.HOURS);
+            }
+        }
 
         this.condutorRepository.save(condutor);
     }
@@ -53,7 +67,7 @@ public class CondutorService {
         Assert.notNull(condutorDatabase, "Condutor não encontrado!");
         Assert.isTrue(condutorDatabase.getId().equals(condutor.getId()), "Condutores não conferem!");
 
-        cadastrar(condutor);
+        cadastrar(condutor, true);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -2,12 +2,17 @@ package br.com.uniamerica.estacionamento.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 @Entity
 @Table(name = "condutores", schema = "public")
 public class Condutor extends AbstractEntity{
@@ -16,18 +21,24 @@ public class Condutor extends AbstractEntity{
     private String nome;
 
     @Getter @Setter
-    @Column(name = "cpf", nullable = false, unique = true, length = 15)
+    @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
 
     @Getter @Setter
-    @Column(name = "telefone", nullable = false, unique = true, length = 17)
+    @Column(name = "telefone", nullable = false, unique = true, length = 15)
     private String telefone;
 
     @Getter @Setter
     @Column(name = "tempo_pago")
-    private LocalTime tempoPago;
+    private Duration tempoPago;
 
     @Getter @Setter
     @Column(name = "tempo_desconto")
-    private LocalTime tempoDesconto;
+    private Duration tempoDesconto;
+
+    @PrePersist
+    private void prePersist(){
+        this.tempoPago = Duration.of(0, ChronoUnit.HOURS);
+        this.tempoDesconto = Duration.of(0, ChronoUnit.HOURS);
+    }
 }
