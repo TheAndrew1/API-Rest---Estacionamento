@@ -50,7 +50,7 @@ public class CondutorService {
         }
         else{
             if(!condutor.getTempoPago().equals(Duration.of(0, ChronoUnit.HOURS))){
-                Configuracao configuracao = this.configuracaoRepository.findById(Long.valueOf(1)).orElse(null);
+                Configuracao configuracao = this.configuracaoRepository.findById(1L).orElse(null);
                 Assert.notNull(configuracao, "Configuração não encontrada!");
 
 //                Long times = condutor.getTempoPago().dividedBy(configuracao.getTempoParaDesconto());
