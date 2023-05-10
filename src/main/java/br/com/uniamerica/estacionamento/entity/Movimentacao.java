@@ -48,4 +48,9 @@ public class Movimentacao extends AbstractEntity{
     @Getter @Setter
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
+
+    @PrePersist
+    private void prePersist(){
+        this.entrada = LocalDateTime.now();
+    }
 }

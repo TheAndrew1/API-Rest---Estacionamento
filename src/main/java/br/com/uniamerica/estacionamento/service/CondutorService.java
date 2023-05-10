@@ -48,15 +48,6 @@ public class CondutorService {
             Condutor condutorDatabase = this.condutorRepository.findByCpf(condutor.getCpf());
             Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
         }
-        else{
-            if(!condutor.getTempoPago().equals(Duration.of(0, ChronoUnit.HOURS))){
-                Configuracao configuracao = this.configuracaoRepository.findById(1L).orElse(null);
-                Assert.notNull(configuracao, "Configuração não encontrada!");
-
-//                Long times = condutor.getTempoPago().dividedBy(configuracao.getTempoParaDesconto());
-//                condutor.setTempoDesconto(Duration.of(configuracao.getTempoDesconto().multipliedBy(times)), ChronoUnit.HOURS);
-            }
-        }
 
         this.condutorRepository.save(condutor);
     }
