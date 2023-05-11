@@ -40,8 +40,6 @@ public class MovimentacaoService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Movimentacao movimentacao, Boolean... editado){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
-
         if(editado.length != 0) {
             movimentacao.setSaida(LocalDateTime.now());
             movimentacao.setTempo(Duration.between(movimentacao.getEntrada(), movimentacao.getSaida()));

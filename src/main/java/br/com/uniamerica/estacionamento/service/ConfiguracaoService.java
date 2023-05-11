@@ -18,7 +18,6 @@ public class ConfiguracaoService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Configuracao configuracao){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         this.configuracaoRepository.save(configuracao);
     }
 

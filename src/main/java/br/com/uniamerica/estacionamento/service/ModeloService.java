@@ -44,7 +44,6 @@ public class ModeloService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Modelo modelo){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         Marca marca = this.marcaRepository.findById(modelo.getMarca().getId()).orElse(null);
         Assert.notNull(marca, "Marca não está cadastrada!");
         if(!marca.isAtivo()){
@@ -73,7 +72,7 @@ public class ModeloService {
         Modelo modelo = findById(id);
         Assert.notNull(modelo, "Modelo não encontrado!");
 
-        final List<Veiculo> veiculos = this.veiculoRepository.findAll();    //Trocar pelo veiculoService depois
+        final List<Veiculo> veiculos = this.veiculoRepository.findAll();
         for(Veiculo veiculo : veiculos){
             if(modelo.equals(veiculo.getModelo())){
                 modelo.setAtivo(false);

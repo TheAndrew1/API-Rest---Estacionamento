@@ -32,7 +32,6 @@ public class MarcaService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Marca marca){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         Marca marcaDatabase = this.marcaRepository.findByMarca(marca.getMarca());
         Assert.isNull(marcaDatabase, "Marca já cadastrada!");
         Assert.isTrue(!(marca.getMarca().length() < 3), "Nome de marca inválido!");

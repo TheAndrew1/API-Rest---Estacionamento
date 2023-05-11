@@ -32,7 +32,6 @@ public class VeiculoService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Veiculo veiculo, Boolean... editado){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         Assert.isTrue(veiculo.getPlaca().length() == 7 || veiculo.getPlaca().length() == 8, "Placa inválida!");
         if(veiculo.getPlaca().length() == 8){
             Assert.isTrue(veiculo.getPlaca().matches("[a-zA-Z]{3}-[0-9]{4}"), "Formato da placa inválido!");
