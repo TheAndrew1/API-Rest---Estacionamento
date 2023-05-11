@@ -50,7 +50,7 @@ public class Movimentacao extends AbstractEntity{
     private BigDecimal valorTotal;
 
     @PrePersist
-    private void prePersist(){
+    private void preEntrada(){
         this.entrada = LocalDateTime.now();
     }
 }

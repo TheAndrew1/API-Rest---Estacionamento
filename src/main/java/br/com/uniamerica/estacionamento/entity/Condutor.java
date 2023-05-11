@@ -37,8 +37,8 @@ public class Condutor extends AbstractEntity{
     private Duration tempoDesconto;
 
     @PrePersist
-    private void prePersist(){
-        this.tempoPago = Duration.of(0, ChronoUnit.HOURS);
-        this.tempoDesconto = Duration.of(0, ChronoUnit.HOURS);
+    private void preSave(){
+        this.tempoPago = Duration.of(0, ChronoUnit.MINUTES);
+        this.tempoDesconto = Duration.of(0, ChronoUnit.MINUTES);
     }
 }
