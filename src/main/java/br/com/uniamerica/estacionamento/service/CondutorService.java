@@ -38,7 +38,6 @@ public class CondutorService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Condutor condutor, Boolean... editado){
-        //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
         Assert.isTrue(condutor.getCpf().length() == 14, "CPF inválido!");
         Assert.isTrue(condutor.getCpf().matches("[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"), "Formato do CPF inválido!");
         Assert.isTrue(condutor.getTelefone().length() == 14, "Telefone inválido!");
