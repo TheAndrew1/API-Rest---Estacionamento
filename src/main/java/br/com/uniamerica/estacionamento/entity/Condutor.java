@@ -30,15 +30,15 @@ public class Condutor extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo_pago")
-    private Duration tempoPago;
+    private Long tempoPago;
 
     @Getter @Setter
     @Column(name = "tempo_desconto")
-    private Duration tempoDesconto;
+    private Long tempoDesconto;
 
     @PrePersist
     private void preSave(){
-        this.tempoPago = Duration.of(0, ChronoUnit.MINUTES);
-        this.tempoDesconto = Duration.of(0, ChronoUnit.MINUTES);
+        this.tempoPago = 0L;
+        this.tempoDesconto = 0L;
     }
 }

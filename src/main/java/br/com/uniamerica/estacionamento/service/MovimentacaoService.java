@@ -42,7 +42,8 @@ public class MovimentacaoService {
     public void cadastrar(final Movimentacao movimentacao, Boolean... editado){
         if(editado.length != 0) {
             movimentacao.setSaida(LocalDateTime.now());
-            movimentacao.setTempo(Duration.between(movimentacao.getEntrada(), movimentacao.getSaida()));
+            Duration tempo = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
+            movimentacao.setTempo(tempo.toMinutes());
         }
 
         this.movimentacaoRepository.save(movimentacao);

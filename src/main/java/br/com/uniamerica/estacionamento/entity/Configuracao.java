@@ -40,11 +40,11 @@ public class Configuracao  extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo_para_desconto", nullable = false)
-    private Duration tempoParaDesconto;
+    private Long tempoParaDesconto;
 
     @Getter @Setter
     @Column(name = "tempo_desconto", nullable = false)
-    private Duration tempoDesconto;
+    private Long tempoDesconto;
 
     @Getter @Setter
     @Column(name = "desconto", nullable = false)

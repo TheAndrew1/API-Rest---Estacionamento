@@ -21,15 +21,15 @@ public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo")
-    private Duration tempo;
+    private Long tempo;
 
     @Getter @Setter
     @Column(name = "tempo_multa")
-    private Duration tempoMulta;
+    private Long tempoMulta;
 
     @Getter @Setter
     @Column(name = "tempo_desconto_gerado")
-    private Duration tempoDescontoGerado;
+    private Long tempoDescontoGerado;
 
     @Getter @Setter
     @ManyToOne
