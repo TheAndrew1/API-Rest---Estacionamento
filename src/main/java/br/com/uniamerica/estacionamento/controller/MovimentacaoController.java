@@ -38,18 +38,34 @@ public class MovimentacaoController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao){
-        this.movimentacaoService.cadastrar(movimentacao);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try{
+            this.movimentacaoService.cadastrar(movimentacao);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Movimentacao movimentacao){
-        this.movimentacaoService.editar(id, movimentacao);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try{
+            this.movimentacaoService.editar(id, movimentacao);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        return ResponseEntity.ok(this.movimentacaoService.excluir(id));
+        try{
+            String mensagem = this.movimentacaoService.excluir(id);
+            return ResponseEntity.ok(mensagem);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

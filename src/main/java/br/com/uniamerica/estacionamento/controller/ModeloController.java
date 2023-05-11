@@ -55,18 +55,34 @@ public class ModeloController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo){
-        this.modeloService.cadastrar(modelo);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try{
+            this.modeloService.cadastrar(modelo);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Modelo modelo){
-        this.modeloService.editar(id, modelo);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try{
+            this.modeloService.editar(id, modelo);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        return ResponseEntity.ok(this.modeloService.excluir(id));
+        try{
+            String mensagem = this.modeloService.excluir(id);
+            return ResponseEntity.ok(mensagem);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -35,18 +35,34 @@ public class VeiculoController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Veiculo veiculo){
-        this.veiculoService.cadastrar(veiculo);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try{
+            this.veiculoService.cadastrar(veiculo);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Veiculo veiculo){
-        this.veiculoService.editar(id, veiculo);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try{
+            this.veiculoService.editar(id, veiculo);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        return ResponseEntity.ok(this.veiculoService.excluir(id));
+        try{
+            String mensagem = this.veiculoService.excluir(id);
+            return ResponseEntity.ok(mensagem);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -21,13 +21,23 @@ public class ConfiguracaoController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao){
-        this.configuracaoService.cadastrar(configuracao);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try{
+            this.configuracaoService.cadastrar(configuracao);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Configuracao configuracao){
-        this.configuracaoService.editar(id, configuracao);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try{
+            this.configuracaoService.editar(id, configuracao);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -40,18 +40,34 @@ public class CondutorController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Condutor condutor){
-        this.condutorService.cadastrar(condutor);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try {
+            this.condutorService.cadastrar(condutor);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Condutor condutor){
-        this.condutorService.editar(id, condutor);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try{
+            this.condutorService.editar(id, condutor);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        return ResponseEntity.ok(this.condutorService.excluir(id));
+        try{
+            String mensagem = this.condutorService.excluir(id);
+            return ResponseEntity.ok(mensagem);
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

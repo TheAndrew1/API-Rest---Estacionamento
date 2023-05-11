@@ -39,18 +39,35 @@ public class MarcaController{
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Marca marca){
-        this.marcaService.cadastrar(marca);
-        return ResponseEntity.ok("Registro cadastrado com sucesso");
+        try{
+            this.marcaService.cadastrar(marca);
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Marca marca){
-        this.marcaService.editar(id, marca);
-        return ResponseEntity.ok("Registro editado com sucesso");
+        try {
+            this.marcaService.editar(id, marca);
+            return ResponseEntity.ok("Registro editado com sucesso");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
-        return ResponseEntity.ok(this.marcaService.excluir(id));
+        try {
+            String mensagem = this.marcaService.excluir(id);
+            return ResponseEntity.ok(mensagem);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
