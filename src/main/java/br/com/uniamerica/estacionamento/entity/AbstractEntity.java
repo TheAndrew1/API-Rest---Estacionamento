@@ -12,13 +12,16 @@ public abstract class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Getter @Setter
-    @Column(name = "dtCadastro", nullable = false)
+    @Column(name = "dt_cadastro", nullable = false)
     private LocalDateTime cadastro;
+
     @Getter @Setter
-    @Column(name = "dtAtualizacao")
+    @Column(name = "dt_atualizacao")
     private LocalDateTime atualizacao;
     @Getter @Setter
+
     @Column(name = "ativo", nullable = false)
     private boolean ativo;
 

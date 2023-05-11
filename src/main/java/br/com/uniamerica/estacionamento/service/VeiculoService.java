@@ -43,7 +43,7 @@ public class VeiculoService {
 
         veiculo.setPlaca(veiculo.getPlaca().toUpperCase());
 
-        if(editado == null){
+        if(editado.length == 0){
             Veiculo veiculoDatabase = this.veiculoRepository.findByPlaca(veiculo.getPlaca());
             Assert.isNull(veiculoDatabase, "Veiculo já cadastrado!");
         }
@@ -56,6 +56,11 @@ public class VeiculoService {
         Veiculo veiculoDatabase = findById(id);
         Assert.notNull(veiculoDatabase, "Veiculo não encontrado!");
         Assert.isTrue(veiculoDatabase.getId().equals(veiculo.getId()), "Veiculos não conferem!");
+
+        veiculoDatabase = this.veiculoRepository.findByPlaca(veiculo.getPlaca());
+        if(veiculoDatabase != null){
+            Assert.isTrue(veiculoDatabase.getId().equals(veiculo.getId()), "Placa já cadastrada!");
+        }
 
         cadastrar(veiculo, true);
     }

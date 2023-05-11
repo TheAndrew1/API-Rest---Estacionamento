@@ -1,7 +1,5 @@
 package br.com.uniamerica.estacionamento.service;
 
-import br.com.uniamerica.estacionamento.entity.Marca;
-import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,7 +16,7 @@ public class MovimentacaoService {
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
 
-//    else{     //atualizar tempo do
+//    else{     //atualizar tempo do condutor
 //        if(!condutor.getTempoPago().equals(Duration.of(0, ChronoUnit.HOURS))){
 //            Configuracao configuracao = this.configuracaoRepository.findById(1L).orElse(null);
 //            Assert.notNull(configuracao, "Configuração não encontrada!");
@@ -41,9 +41,11 @@ public class MovimentacaoService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Movimentacao movimentacao, Boolean... editado){
         //Arrumar bug com put, ou colocar Setter no id e adicionar id pelo código
-        Movimentacao movimentacaoDatabase = this.movimentacaoRepository.findByMarca(marca.getMarca());
-        Assert.isNull(movimentacaoDatabase, "Marca já cadastrada!");
-        Assert.isTrue(!(movimentacao.getMarca().length() < 3), "Nome de Movimentação inválido!");
+
+        if(editado.length != 0) {
+            movimentacao.setSaida(LocalDateTime.now());
+            movimentacao.setTempo(Duration.between(movimentacao.getEntrada(), movimentacao.getSaida()));
+        }
 
         this.movimentacaoRepository.save(movimentacao);
     }
@@ -54,7 +56,7 @@ public class MovimentacaoService {
         Assert.notNull(movimentacaoDatabase, "Movimentação não encontrada!");
         Assert.isTrue(movimentacaoDatabase.getId().equals(movimentacao.getId()), "Movimentações não conferem!");
 
-        cadastrar(movimentacao);
+        cadastrar(movimentacao, true);
     }
 
     @Transactional(rollbackFor = Exception.class)

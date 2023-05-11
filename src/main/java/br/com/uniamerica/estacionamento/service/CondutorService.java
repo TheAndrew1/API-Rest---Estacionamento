@@ -42,9 +42,9 @@ public class CondutorService {
         Assert.isTrue(condutor.getCpf().length() == 14, "CPF inválido!");
         Assert.isTrue(condutor.getCpf().matches("[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"), "Formato do CPF inválido!");
         Assert.isTrue(condutor.getTelefone().length() == 14, "Telefone inválido!");
-        Assert.isTrue(condutor.getTelefone().matches("([0-9]{2}) 9[0-9]{4}-[0-9]{4}"), "Formato do telefone inválido!");
+        Assert.isTrue(condutor.getTelefone().matches("\\([0-9]{2}\\)9[0-9]{4}-[0-9]{4}"), "Formato do telefone inválido!");
 
-        if(editado == null) {
+        if(editado.length == 0) {
             Condutor condutorDatabase = this.condutorRepository.findByCpf(condutor.getCpf());
             Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
         }
