@@ -28,8 +28,8 @@ public class Movimentacao extends AbstractEntity{
     private Long tempoMulta;
 
     @Getter @Setter
-    @Column(name = "tempo_desconto_gerado")
-    private Long tempoDescontoGerado;
+    @Column(name = "tempo_desconto")
+    private Long tempoDesconto;
 
     @Getter @Setter
     @ManyToOne
@@ -46,11 +46,17 @@ public class Movimentacao extends AbstractEntity{
     private BigDecimal valorMulta;
 
     @Getter @Setter
+    @Column(name = "valor_desconto")
+    private BigDecimal valorDesconto;
+
+    @Getter @Setter
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
     @PrePersist
     private void preEntrada(){
         this.entrada = LocalDateTime.now();
+        this.tempoMulta = 0L;
+        this.tempoDesconto = 0L;
     }
 }

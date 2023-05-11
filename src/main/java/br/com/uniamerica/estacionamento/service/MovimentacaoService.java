@@ -1,20 +1,28 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
+import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovimentacaoService {
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
+    @Autowired
+    private ConfiguracaoRepository configuracaoRepository;
 
 //    else{     //atualizar tempo do condutor
 //        if(!condutor.getTempoPago().equals(Duration.of(0, ChronoUnit.HOURS))){
@@ -41,9 +49,21 @@ public class MovimentacaoService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Movimentacao movimentacao, Boolean... editado){
         if(editado.length != 0) {
+//            Optional<Configuracao> configuracao = this.configuracaoRepository.findById(1L);
+//            Assert.notNull(configuracao, "Configurações do sistema não encontradas!");
+            BigDecimal valorMinuto = new BigDecimal("0.5");
+            BigDecimal valorMulta = new BigDecimal("0.25");
+            LocalTime horarioFecha = LocalTime.of(19,0);
+
             movimentacao.setSaida(LocalDateTime.now());
             Duration tempo = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
             movimentacao.setTempo(tempo.toMinutes());
+
+            tempo = Duration.between(movimentacao.getEntrada(), LocalDateTime.of(LocalDate.now(),horarioFecha)).abs();
+            movimentacao.setTempoMulta(tempo.toMinutes());
+            movimentacao.setValorMulta(valorMulta.multiply(BigDecimal.valueOf(tempo.toMinutes())));
+
+            movimentacao.setValorTotal(valorMinuto.multiply(BigDecimal.valueOf(movimentacao.getTempo())).add(movimentacao.getValorMulta()));
         }
 
         this.movimentacaoRepository.save(movimentacao);

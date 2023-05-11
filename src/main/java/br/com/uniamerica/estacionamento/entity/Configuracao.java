@@ -31,12 +31,12 @@ public class Configuracao  extends AbstractEntity{
     private LocalTime horarioFecha;
 
     @Getter @Setter
-    @Column(name = "valor_hora", nullable = false)
-    private BigDecimal valorHora;
+    @Column(name = "valor_minuto", nullable = false)
+    private BigDecimal valorMinuto;
 
     @Getter @Setter
-    @Column(name = "valor_multa_hora", nullable = false)
-    private BigDecimal valorMultaHora;
+    @Column(name = "valor_multa_minuto", nullable = false)
+    private BigDecimal valorMultaMinuto;
 
     @Getter @Setter
     @Column(name = "tempo_para_desconto", nullable = false)
