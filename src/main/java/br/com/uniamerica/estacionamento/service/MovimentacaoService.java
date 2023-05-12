@@ -48,22 +48,19 @@ public class MovimentacaoService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Movimentacao movimentacao, Boolean... editado){
-        if(editado.length != 0) {
-//            Optional<Configuracao> configuracao = this.configuracaoRepository.findById(1L);
-//            Assert.notNull(configuracao, "Configurações do sistema não encontradas!");
-            BigDecimal valorMinuto = new BigDecimal("0.5");
-            BigDecimal valorMulta = new BigDecimal("0.25");
-            LocalTime horarioFecha = LocalTime.of(19,0);
+        Configuracao configuracao = this.configuracaoRepository.findById(1L).orElse(null);
+        Assert.notNull(configuracao, "Configurações do sistema não encontradas!");
 
+        if(editado.length != 0) {
             movimentacao.setSaida(LocalDateTime.now());
             Duration tempo = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
             movimentacao.setTempo(tempo.toMinutes());
 
-            tempo = Duration.between(movimentacao.getEntrada(), LocalDateTime.of(LocalDate.now(),horarioFecha)).abs();
+            tempo = Duration.between(movimentacao.getEntrada(), LocalDateTime.of(LocalDate.now(),configuracao.getHorarioFecha())).abs();
             movimentacao.setTempoMulta(tempo.toMinutes());
-            movimentacao.setValorMulta(valorMulta.multiply(BigDecimal.valueOf(tempo.toMinutes())));
+            movimentacao.setValorMulta(configuracao.getValorMultaMinuto().multiply(BigDecimal.valueOf(tempo.toMinutes())));
 
-            movimentacao.setValorTotal(valorMinuto.multiply(BigDecimal.valueOf(movimentacao.getTempo())).add(movimentacao.getValorMulta()));
+            movimentacao.setValorTotal(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempo())).add(movimentacao.getValorMulta()));
         }
 
         this.movimentacaoRepository.save(movimentacao);
