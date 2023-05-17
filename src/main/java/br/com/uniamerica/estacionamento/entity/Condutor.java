@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "condutores", schema = "public")
 public class Condutor extends AbstractEntity{
     @Getter @Setter
+    @NotNull(message = "Nome não pode ser nulo")    //Hibernate Validation
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 

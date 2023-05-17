@@ -47,6 +47,6 @@ public class Configuracao  extends AbstractEntity{
     private Long tempoDesconto;
 
     @Getter @Setter
-    @Column(name = "desconto", nullable = false)
-    private boolean desconto;
+    @Column(name = "gerar_desconto", nullable = false)
+    private boolean gerarDesconto;
 }

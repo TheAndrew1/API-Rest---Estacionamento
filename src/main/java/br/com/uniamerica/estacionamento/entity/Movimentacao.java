@@ -40,6 +40,9 @@ public class Movimentacao extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "condutor", nullable = false)
     private Condutor condutor;
+    @Getter @Setter
+    @Column(name = "valor")
+    private BigDecimal valor;
 
     @Getter @Setter
     @Column(name = "valor_multa")

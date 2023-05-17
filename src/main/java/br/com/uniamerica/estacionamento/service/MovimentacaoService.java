@@ -1,7 +1,9 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
+import br.com.uniamerica.estacionamento.repository.CondutorRepository;
 import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovimentacaoService {
+    @Autowired
+    private CondutorRepository condutorRepository;
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
     @Autowired
@@ -52,15 +55,29 @@ public class MovimentacaoService {
         Assert.notNull(configuracao, "Configurações do sistema não encontradas!");
 
         if(editado.length != 0) {
-            movimentacao.setSaida(LocalDateTime.now());
+            Assert.notNull(movimentacao.getSaida(), "Saída não cadastrada!");
             Duration tempo = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
             movimentacao.setTempo(tempo.toMinutes());
 
-            tempo = Duration.between(movimentacao.getEntrada(), LocalDateTime.of(LocalDate.now(),configuracao.getHorarioFecha())).abs();
-            movimentacao.setTempoMulta(tempo.toMinutes());
-            movimentacao.setValorMulta(configuracao.getValorMultaMinuto().multiply(BigDecimal.valueOf(tempo.toMinutes())));
+            tempo = Duration.between(LocalDateTime.of(LocalDate.now(),configuracao.getHorarioFecha()), movimentacao.getSaida());
+            if(tempo.isNegative())
+            {
+                movimentacao.setTempoMulta(0L);
+                movimentacao.setValorMulta(BigDecimal.ZERO);
+            }
+            else {
+                movimentacao.setTempoMulta(tempo.toMinutes());
+                movimentacao.setValorMulta(configuracao.getValorMultaMinuto().multiply(BigDecimal.valueOf(tempo.toMinutes())));
+            }
 
-            movimentacao.setValorTotal(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempo())).add(movimentacao.getValorMulta()));
+            final Condutor condutor = movimentacao.getCondutor();
+            Long tempoPago = condutor.getTempoPago() + movimentacao.getTempo();
+            condutor.setTempoPago(tempoPago);
+
+            movimentacao.setValor(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempo())));
+            movimentacao.setValorTotal(movimentacao.getValor().add(movimentacao.getValorMulta()));
+
+            movimentacao.setAtivo(false);
         }
 
         this.movimentacaoRepository.save(movimentacao);
@@ -70,6 +87,7 @@ public class MovimentacaoService {
     public void editar(final Long id, final Movimentacao movimentacao){
         Movimentacao movimentacaoDatabase = findById(id);
         Assert.notNull(movimentacaoDatabase, "Movimentação não encontrada!");
+        Assert.isTrue(movimentacaoDatabase.isAtivo(), "Movimentação já fechada!");
         Assert.isTrue(movimentacaoDatabase.getId().equals(movimentacao.getId()), "Movimentações não conferem!");
 
         cadastrar(movimentacao, true);
