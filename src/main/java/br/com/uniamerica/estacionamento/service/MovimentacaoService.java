@@ -71,8 +71,9 @@ public class MovimentacaoService {
             }
 
             final Condutor condutor = movimentacao.getCondutor();
-            Long tempoPago = condutor.getTempoPago() + movimentacao.getTempo();
-            condutor.setTempoPago(tempoPago);
+            condutor.setTempoPago(condutor.getTempoPago() + movimentacao.getTempo());
+            condutor.setTempoDesconto((condutor.getTempoPago()/configuracao.getTempoParaDesconto())*configuracao.getTempoDesconto());
+            this.condutorRepository.save(condutor);
 
             movimentacao.setValor(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempo())));
             movimentacao.setValorTotal(movimentacao.getValor().add(movimentacao.getValorMulta()));
