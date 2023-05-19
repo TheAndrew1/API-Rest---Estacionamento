@@ -60,8 +60,7 @@ public class MovimentacaoService {
             movimentacao.setTempo(tempo.toMinutes());
 
             tempo = Duration.between(LocalDateTime.of(LocalDate.now(),configuracao.getHorarioFecha()), movimentacao.getSaida());
-            if(tempo.isNegative())
-            {
+            if(tempo.isNegative()) {
                 movimentacao.setTempoMulta(0L);
                 movimentacao.setValorMulta(BigDecimal.ZERO);
             }
@@ -71,12 +70,25 @@ public class MovimentacaoService {
             }
 
             final Condutor condutor = movimentacao.getCondutor();
-            condutor.setTempoPago(condutor.getTempoPago() + movimentacao.getTempo());
-            condutor.setTempoDesconto((condutor.getTempoPago()/configuracao.getTempoParaDesconto())*configuracao.getTempoDesconto());
-            this.condutorRepository.save(condutor);
+
+            if (movimentacao.getTempoDesconto() != null) {
+                Assert.isTrue(movimentacao.getTempoDesconto() > 0,"Tempo de desconto deve ser maior que 0!");
+                Assert.isTrue(condutor.getTempoDesconto() > 0,"Condutor não possui tempo de desconto para aplicar!");
+                Assert.isTrue(condutor.getTempoDesconto() > movimentacao.getTempoDesconto(),"Condutor não possui tempo de desconto suficiente!");
+
+                movimentacao.setValorDesconto(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempoDesconto())));
+            }
+            else {
+                movimentacao.setTempoDesconto(0L);
+                movimentacao.setValorDesconto(BigDecimal.ZERO);
+            }
 
             movimentacao.setValor(configuracao.getValorMinuto().multiply(BigDecimal.valueOf(movimentacao.getTempo())));
-            movimentacao.setValorTotal(movimentacao.getValor().add(movimentacao.getValorMulta()));
+            movimentacao.setValorTotal(movimentacao.getValor().add(movimentacao.getValorMulta()).subtract(movimentacao.getValorDesconto()));
+
+            condutor.setTempoPago(condutor.getTempoPago() + movimentacao.getTempo() - movimentacao.getTempoDesconto());
+            condutor.setTempoDesconto((condutor.getTempoPago()/configuracao.getTempoParaDesconto())*configuracao.getTempoDesconto());
+            this.condutorRepository.save(condutor);
 
             movimentacao.setAtivo(false);
         }
