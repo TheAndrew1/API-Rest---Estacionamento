@@ -87,7 +87,7 @@ public class MovimentacaoService {
             movimentacao.setValorTotal(movimentacao.getValor().add(movimentacao.getValorMulta()).subtract(movimentacao.getValorDesconto()));
 
             condutor.setTempoPago(condutor.getTempoPago() + movimentacao.getTempo() - movimentacao.getTempoDesconto());
-            condutor.setTempoDesconto((condutor.getTempoPago()/configuracao.getTempoParaDesconto())*configuracao.getTempoDesconto());
+            condutor.setTempoDesconto(((condutor.getTempoPago()/configuracao.getTempoParaDesconto())*configuracao.getTempoDesconto()) - movimentacao.getTempoDesconto());
             this.condutorRepository.save(condutor);
 
             movimentacao.setAtivo(false);
