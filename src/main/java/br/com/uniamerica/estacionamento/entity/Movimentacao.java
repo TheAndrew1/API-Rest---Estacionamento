@@ -58,7 +58,6 @@ public class Movimentacao extends AbstractEntity{
 
     @PrePersist
     private void preEntrada(){
-        this.entrada = LocalDateTime.now();
         this.tempoMulta = 0L;
         this.tempoDesconto = 0L;
     }

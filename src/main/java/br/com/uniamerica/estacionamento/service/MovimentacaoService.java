@@ -71,8 +71,8 @@ public class MovimentacaoService {
 
             final Condutor condutor = movimentacao.getCondutor();
 
-            if (movimentacao.getTempoDesconto() != null) {
-                Assert.isTrue(movimentacao.getTempoDesconto() > 0,"Tempo de desconto deve ser maior que 0!");
+            if (movimentacao.getTempoDesconto() != 0) {
+                Assert.isTrue(movimentacao.getTempoDesconto() > 0,"Tempo de desconto não pode ser negativo!");
                 Assert.isTrue(condutor.getTempoDesconto() > 0,"Condutor não possui tempo de desconto para aplicar!");
                 Assert.isTrue(condutor.getTempoDesconto() > movimentacao.getTempoDesconto(),"Condutor não possui tempo de desconto suficiente!");
 
