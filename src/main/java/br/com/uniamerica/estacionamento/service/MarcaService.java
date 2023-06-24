@@ -32,9 +32,9 @@ public class MarcaService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Marca marca){
-        Marca marcaDatabase = this.marcaRepository.findByMarca(marca.getMarca());
+        Marca marcaDatabase = this.marcaRepository.findByNome(marca.getNome());
         Assert.isNull(marcaDatabase, "Marca já cadastrada!");
-        Assert.isTrue(!(marca.getMarca().length() < 3), "Nome de marca inválido!");
+        Assert.isTrue(!(marca.getNome().length() < 3), "Nome de marca inválido!");
 
         this.marcaRepository.save(marca);
     }
