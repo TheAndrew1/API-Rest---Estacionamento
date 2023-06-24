@@ -51,9 +51,9 @@ public class ModeloService {
             this.marcaRepository.save(marca);
         }
 
-        Modelo modeloDatabase = this.modeloRepository.findByModelo(modelo.getModelo());
+        Modelo modeloDatabase = this.modeloRepository.findByNome(modelo.getNome());
         Assert.isNull(modeloDatabase, "Modelo já cadastrado!");
-        Assert.isTrue(!(modelo.getModelo().length() < 3), "Nome de modelo inválido!");
+        Assert.isTrue(!(modelo.getNome().length() < 3), "Nome de modelo inválido!");
 
         this.modeloRepository.save(modelo);
     }

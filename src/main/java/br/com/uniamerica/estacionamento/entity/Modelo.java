@@ -16,6 +16,6 @@ public class Modelo extends AbstractEntity{
     @JoinColumn(name = "marca", nullable = false)
     private Marca marca;
     @Getter @Setter
-    @Column(name = "modelo", nullable = false, unique = true, length = 50)
-    private String modelo;
+    @Column(name = "nome", nullable = false, unique = true, length = 50)
+    private String nome;
 }

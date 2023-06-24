@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ModeloRepository extends JpaRepository<Modelo, Long> {
 
     public List<Modelo> findByAtivoIsTrue();
-    public Modelo findByModelo(String modelo);
+    public Modelo findByNome(String nome);
     @Query(value = "select * from modelos where ativo=true", nativeQuery = true)
     public List<Modelo> findByAtivo();
 }
