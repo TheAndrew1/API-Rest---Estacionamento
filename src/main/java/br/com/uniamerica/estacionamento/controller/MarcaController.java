@@ -23,14 +23,16 @@ public class MarcaController{
     @GetMapping(params = "id")
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Marca marca = this.marcaService.findById(id);
-        return ResponseEntity.ok(marca);
+        return marca == null
+                ? ResponseEntity.badRequest().body("Marca não encontrada.")
+                : ResponseEntity.ok(marca);
     }
 
     @GetMapping(params = "name")
     public ResponseEntity<?> findByNome(@RequestParam("name") final String nome){
         final Marca marca = this.marcaService.findByNome(nome);
         return marca == null
-                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
+                ? ResponseEntity.badRequest().body("Marca não encontrada.")
                 : ResponseEntity.ok(marca);
     }
 

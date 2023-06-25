@@ -40,7 +40,7 @@ public class ModeloController {
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Modelo modelo = this.modeloService.findById(id);
         return modelo == null
-                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
+                ? ResponseEntity.badRequest().body("Modelo não encontrado.")
                 : ResponseEntity.ok(modelo);
     }
 
@@ -48,7 +48,7 @@ public class ModeloController {
     public ResponseEntity<?> findByNome(@RequestParam("name") final String nome){
         final Modelo modelo = this.modeloService.findByNome(nome);
         return modelo == null
-                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
+                ? ResponseEntity.badRequest().body("Modelo não encontrado.")
                 : ResponseEntity.ok(modelo);
     }
 
