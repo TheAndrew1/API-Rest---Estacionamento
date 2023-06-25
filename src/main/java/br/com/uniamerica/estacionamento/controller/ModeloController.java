@@ -36,10 +36,20 @@ public class ModeloController {
     }*/
 
     /** http://localhost:8080/api/modelo?id=1 */
-    @GetMapping
+    @GetMapping(params = "id")
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Modelo modelo = this.modeloService.findById(id);
-        return ResponseEntity.ok(modelo);
+        return modelo == null
+                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
+                : ResponseEntity.ok(modelo);
+    }
+
+    @GetMapping(params = "name")
+    public ResponseEntity<?> findByNome(@RequestParam("name") final String nome){
+        final Modelo modelo = this.modeloService.findByNome(nome);
+        return modelo == null
+                ? ResponseEntity.badRequest().body("Nenhum valor encontrado.")
+                : ResponseEntity.ok(modelo);
     }
 
     @GetMapping("/lista")

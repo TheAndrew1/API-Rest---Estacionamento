@@ -34,6 +34,10 @@ public class ModeloService {
         return this.modeloRepository.findById(id).orElse(null);
     }
 
+    public Modelo findByNome(final String nome){
+        return this.modeloRepository.findByNome(nome);
+    }
+
     public List<Modelo> findAll(){
         return this.modeloRepository.findAll();
     }

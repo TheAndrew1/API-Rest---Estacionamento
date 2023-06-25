@@ -22,6 +22,10 @@ public class MarcaService {
         return this.marcaRepository.findById(id).orElse(null);
     }
 
+    public Marca findByNome(final String nome){
+        return this.marcaRepository.findByNome(nome);
+    }
+
     public List<Marca> findAll(){
         return this.marcaRepository.findAll();
     }
