@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
@@ -21,6 +22,8 @@ public class VeiculoService {
     public Veiculo findById(final Long id){
         return this.veiculoRepository.findById(id).orElse(null);
     }
+
+    public Veiculo findByPlaca(final String placa){ return this.veiculoRepository.findByPlaca(placa); }
 
     public List<Veiculo> findAll(){
         return this.veiculoRepository.findAll();

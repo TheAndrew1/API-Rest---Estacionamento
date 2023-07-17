@@ -21,10 +21,18 @@ public class CondutorController {
     @Autowired
     private CondutorService condutorService;
 
-    @GetMapping
+    @GetMapping(params = "id")
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Condutor condutor = this.condutorService.findById(id);
         return ResponseEntity.ok(condutor);
+    }
+
+    @GetMapping(params = "cpf")
+    public ResponseEntity<?> findByNome(@RequestParam("cpf") final String cpf){
+        final Condutor condutor = this.condutorService.findByCpf(cpf);
+        return condutor == null
+                ? ResponseEntity.badRequest().body("Condutor não encontrado.")
+                : ResponseEntity.ok(condutor);
     }
 
     @GetMapping("/lista")

@@ -3,6 +3,7 @@ package br.com.uniamerica.estacionamento.service;
 import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
+import br.com.uniamerica.estacionamento.entity.Veiculo;
 import br.com.uniamerica.estacionamento.repository.CondutorRepository;
 import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
@@ -28,6 +29,8 @@ public class CondutorService {
         return this.condutorRepository.findById(id).orElse(null);
     }
 
+    public Condutor findByCpf(final String cpf){ return this.condutorRepository.findByCpf(cpf); }
+
     public List<Condutor> findAll(){
         return this.condutorRepository.findAll();
     }
@@ -45,6 +48,9 @@ public class CondutorService {
 
         if(editado.length == 0) {
             Condutor condutorDatabase = this.condutorRepository.findByCpf(condutor.getCpf());
+            Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
+
+            condutorDatabase = this.condutorRepository.findByTelefone(condutor.getTelefone());
             Assert.isNull(condutorDatabase, "Condutor já cadastrado!");
         }
 

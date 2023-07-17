@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.controller;
 
+import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
 import br.com.uniamerica.estacionamento.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,18 @@ public class VeiculoController {
     @Autowired
     private VeiculoService veiculoService;
 
-    @GetMapping
+    @GetMapping(params = "id")
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Veiculo veiculo = this.veiculoService.findById(id);
         return ResponseEntity.ok(veiculo);
+    }
+
+    @GetMapping(params = "placa")
+    public ResponseEntity<?> findByNome(@RequestParam("placa") final String placa){
+        final Veiculo veiculo = this.veiculoService.findByPlaca(placa);
+        return veiculo == null
+                ? ResponseEntity.badRequest().body("Veículo não encontrado.")
+                : ResponseEntity.ok(veiculo);
     }
 
     @GetMapping("/lista")

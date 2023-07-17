@@ -55,7 +55,7 @@ public class MovimentacaoService {
         Assert.notNull(configuracao, "Configurações do sistema não encontradas!");
 
         if(editado.length != 0) {
-            Assert.notNull(movimentacao.getSaida(), "Saída não cadastrada!");
+            //Assert.notNull(movimentacao.getSaida(), "Saída não cadastrada!");
             Duration tempo = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
             movimentacao.setTempo(tempo.toMinutes());
 
